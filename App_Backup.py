@@ -1,61 +1,59 @@
-from flask import Flask, render_template, send_file
+from flask import Flask, render_template
 import matplotlib.pyplot as plt
-import io
+import pandas as pd
 import matplotlib
-
 
 # Cambiar el backend para evitar usar Tkinter
 matplotlib.use('Agg')
 
 app = Flask(__name__)
 
-@app.route('/graficos.png')
-def crear_graficos():
-    x = [1, 2, 3, 4, 5]
-    y1 = [1, 4, 10, 15, 25]
-    y2 = [2, 8, 12, 18, 24]
-    y3 = [3, 6, 9, 12, 15]
-    y4 = [4, 5, 7, 8, 10]
-
-    labels = ['A', 'B', 'C', 'D', 'E']
-    sizes = [10, 20, 30, 40, 50]
-
-    #Crear el primer gráfico (2 fila, 2 columna, 1 grafico)
-    plt.subplot(2, 2, 1)
-    plt.plot(x, y1, color='red')
-    plt.title('Gráfico de lineas')
-
-    #Crear el segundo gráfico (2 fila, 2 columna, 2 grafico)
-    plt.subplot(2, 2, 2)
-    plt.bar(x, y2, color='green')
-    plt.title('Gráfico de barras')
-
-    #Crear el primer gráfico (2 fila, 2 columna, 3 grafico)
-    plt.subplot(2, 2, 3)
-    plt.pie(sizes, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90)
-    plt.axis('equal')
-    plt.title('Gráfico de torta')
-
-    #Crear el segundo gráfico (2 fila, 2 columna, 4 grafico)
-    plt.subplot(2, 2, 4)
-    plt.plot(x, y1, label='Serie 1')
-    plt.plot(x, y2, label='Serie 2')
-    plt.fill_between(x, y1, y2, alpha=0.2)
-    plt.legend()
-    plt.title('Gráfico de lineas')
-
-    #Ajustar el espacio entre subplots
-    plt.tight_layout()
-    
-    img=io.BytesIO() 
-    plt.savefig(img, format='png')
-    img.seek(0)
-    
-    return send_file(img, mimetype='image/png')
+# Leer el archivo CSV
+df = pd.read_csv('datos.csv')  # Asegúrate de que el archivo CSV esté en la misma carpeta que tu script.
 
 @app.route('/')
-def index():
+def show_charts():
     return render_template('Estadisticas.html')
+
+
+# Seleccionar datos de ejemplo para graficar (modificar según lo que necesites)
+ciudades = df['Ciudad'].value_counts().head(5)  # Top 5 ciudades con más registros
+productos = df['Producto'].value_counts().head(5)  # Top 5 productos más vendidos
+genero = df['Género'].value_counts()  # Distribución de género
+fechas = df['Fecha'].value_counts().sort_index().head(10)  # Actividad por fecha (ordenada)
+
+# Gráfico de Barras (para distribución de género)
+
+fig1, ax1 = plt.subplots()
+ax1.bar(genero.index, genero.values, color='blue')
+ax1.set_xlabel('Género')
+ax1.set_ylabel('Cantidad')
+plt.savefig('static/img/barras.png')
+plt.close(fig1)
+
+#Gráfico de Torta (para ciudades con más registros)
+
+fig2, ax2 = plt.subplots()
+ax2.pie(ciudades.values, labels=ciudades.index, autopct='%1.1f%%', startangle=90)
+plt.axis('equal')
+plt.savefig('static/img/torta.png')
+plt.close(fig2)
+
+# Gráfico de Líneas (para actividad por fecha)
+
+fig3, ax3 = plt.subplots()
+ax3.plot(fechas.index, fechas.values, marker='o', color='purple')
+plt.xticks(rotation=45)
+plt.savefig('static/img/lineas.png')
+plt.close(fig3)
+
+
+# Gráfico de Área (para productos más vendidos)
+fig4, ax4 = plt.subplots()
+ax4.fill_between(productos.index, productos.values, color="green", alpha=0.6)
+plt.xticks(rotation=45)
+plt.savefig('static/img/area.png')
+plt.close(fig4)
 
 
 if __name__ == '__main__':
