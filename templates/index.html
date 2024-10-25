@@ -29,20 +29,22 @@
 				<nav class="navbar container">
 					<i class="fa-solid fa-bars"></i>
 					<ul class="menu">
-						<li><a href="#" id="inicio">Inicio</a></li>
+						<li><a href="{{ url_for('index') }}">Inicio</a></li>
+						
 						<!-- Submenú de Productos -->
 						<li class="has-submenu">
 							<a>Productos</a>
 							<ul class="submenu">
-								<li><a href="/templates/Desayunos.html">Deliciosos Desayunos</a></li>
-								<li><a href="/templates/Endulzate.html">Endúlza tu vida</a></li>
-								<li><a href="/templates/Adiciones.html">Dulces Adiciones</a></li>
+								<li><a href="{{ url_for('desayunos') }}">Deliciosos Desayunos</a></li>
+								<li><a href="{{ url_for('endulzate') }}">Endúlza tu Vida</a></li>
+								<li><a href="{{ url_for('adiciones') }}">Dulces Adiciones</a></li>
 							</ul>
 						</li>
-						<li><a href="/templates/Estadisticas.html">Estadísticas</a></li>
-						<li><a href="#servicios">Servicios</a></li>
-						<li><a href="#Weare">Sobre nosotros</a></li>
-						<li><a href="/templates/Contacto.html">Contacto</a></li>
+						
+						<li><a href="{{ url_for('estadisticas') }}">Estadísticas</a></li>
+						<li><a href="{{ url_for('index') }}#servicios">Servicios</a></li>
+						<li><a href="{{ url_for('index') }}#Weare">Sobre nosotros</a></li>
+						<li><a href="{{ url_for('contacto') }}">Contacto</a></li>
 					</ul>
 
 					<div class="social-icons">

@@ -26,20 +26,22 @@
             <nav class="navbar container">
                 <i class="fa-solid fa-bars"></i>
                 <ul class="menu">
-                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="{{ url_for('index') }}">Inicio</a></li>
+                    
                     <!-- Submenú de Productos -->
                     <li class="has-submenu">
                         <a>Productos</a>
                         <ul class="submenu">
-                            <li><a href="Desayunos.html">Deliciosos Desayunos</a></li>
-                            <li><a href="Endulzate.html">Endúlza tu Vida</a></li>
-                            <li><a href="Adiciones.html">Dulces Adiciones</a></li>
+                            <li><a href="{{ url_for('desayunos') }}">Deliciosos Desayunos</a></li>
+                            <li><a href="{{ url_for('endulzate') }}">Endúlza tu Vida</a></li>
+                            <li><a href="{{ url_for('adiciones') }}">Dulces Adiciones</a></li>
                         </ul>
                     </li>
-                    <li><a href="Estadisticas.html">Estadísticas</a></li>
-                    <li><a href="index.html#servicios">Servicios</a></li>
-                    <li><a href="index.html#Weare">Sobre nosotros</a></li>
-                    <li><a href="Contacto.html" id="inicio">Contacto</a></li>
+                    
+                    <li><a href="{{ url_for('estadisticas') }}">Estadísticas</a></li>
+                    <li><a href="{{ url_for('index') }}#servicios">Servicios</a></li>
+                    <li><a href="{{ url_for('index') }}#Weare">Sobre nosotros</a></li>
+                    <li><a href="{{ url_for('contacto') }}">Contacto</a></li>
                 </ul>
 
                 <div class="social-icons">
@@ -51,7 +53,7 @@
         </div>
     </header>
     <div class="login-box">
-        <form action="/submit" method="post" id="contactForm">
+        <form id="contactForm" action="/submit" method="POST">
             <h2>Formulario de Contacto</h1>
             <div class="form-content">
                 <div class="user-box">
@@ -133,7 +135,7 @@
                 </div>
             </div>
             <div class="buttons">
-                    <input type="submit" value="Enviar formulario">
+                <input type="submit" value="Enviar formulario">
                 </div>
             </div>
         </form>
